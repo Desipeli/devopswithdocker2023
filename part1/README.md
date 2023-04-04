@@ -20,3 +20,19 @@ tail -f ./text.log
 ![](https://raw.githubusercontent.com/Desipeli/devopswithdocker2023/main/part1/exercise1_4_2.png)
 
 flags `-it` and `--rm` and added `apt-get update; apt-get -y install curl;` to sh
+
+## Exercise 1.5
+
+```
+devopsdockeruh/simple-web-service   ubuntu    4e3362e907d5   2 years ago   83MB
+devopsdockeruh/simple-web-service   alpine    fd312adc88e0   2 years ago   15.7MB
+```
+
+```
+sudo docker exec -it 30 sh
+/usr/src/app # ls
+server    text.log
+/usr/src/app # tail -f text.log 
+2023-04-04 15:56:03 +0000 UTC
+Secret message is: 'You can find the source code here: https://github.com/docker-hy'
+```
