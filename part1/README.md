@@ -45,3 +45,17 @@ Give me the password: basics
 You found the correct password. Secret message is:
 "This is the secret message"
 ```
+
+## Exercise 1.7
+
+```
+FROM ubuntu:20.04
+
+WORKDIR /usr/src/app
+
+COPY skripti.sh .
+
+RUN chmod +x skripti.sh; apt-get update; apt-get install curl -y
+
+CMD ./skripti.sh
+```
