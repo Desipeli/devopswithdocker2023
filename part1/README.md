@@ -36,3 +36,12 @@ server    text.log
 2023-04-04 15:56:03 +0000 UTC
 Secret message is: 'You can find the source code here: https://github.com/docker-hy'
 ```
+
+## Exercise 1.6
+
+```
+sudo docker run -it devopsdockeruh/pull_exercise
+Give me the password: basics
+You found the correct password. Secret message is:
+"This is the secret message"
+```
