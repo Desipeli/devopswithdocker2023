@@ -73,3 +73,9 @@ CMD server
 ```
 docker run --rm -v "$(pwd)/mydir/text.log:/usr/src/app/text.log" devopsdockeruh/simple-web-service
 ```
+
+## Exercise 1.10
+
+```
+docker run -p 127.0.0.1:8080:8080 --rm web-server
+```
