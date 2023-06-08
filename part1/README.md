@@ -68,3 +68,8 @@ FROM devopsdockeruh/simple-web-service:alpine
 
 CMD server
 ```
+## Exercise 1.9
+
+```
+docker run --rm -v "$(pwd)/mydir/text.log:/usr/src/app/text.log" devopsdockeruh/simple-web-service
+```
