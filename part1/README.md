@@ -140,3 +140,53 @@ CMD ["./server"]
 docker build -t example-backend .
 docker run -d -p 127.0.0.1:8080:8080 example-backend
 ```
+
+## Exercise 1.14
+
+### frontend
+
+```
+FROM node:16
+
+EXPOSE 5000
+
+WORKDIR usr/src/app
+
+COPY . .
+
+ENV REACT_APP_BACKEND_URL=http://127.0.0.1:8080
+
+RUN npm install
+RUN npm run build
+RUN npm install -g serve
+
+CMD serve -s -l 5000 build
+```
+
+```
+docker build -t example-frontend .
+docker run -d -p 127.0.0.1:5000:5000 example-frontend
+```
+
+### backend
+
+```
+FROM golang:1.16
+
+EXPOSE 8080
+
+WORKDIR usr/src/app
+
+COPY . .
+
+ENV REQUEST_ORIGIN=http://127.0.0.1:5000
+
+RUN go build
+
+CMD ["./server"]
+```
+
+```
+docker build -t example-backend .
+docker run -d -p 127.0.0.1:8080:8080 example-backend
+```
