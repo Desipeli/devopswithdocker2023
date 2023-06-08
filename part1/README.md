@@ -59,3 +59,12 @@ RUN chmod +x skripti.sh; apt-get update; apt-get install curl -y
 
 CMD ./skripti.sh
 ```
+## Exercise 1.8
+
+```
+### Dockerfile:
+
+FROM devopsdockeruh/simple-web-service:alpine
+
+CMD server
+```
