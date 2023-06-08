@@ -79,3 +79,22 @@ docker run --rm -v "$(pwd)/mydir/text.log:/usr/src/app/text.log" devopsdockeruh/
 ```
 docker run -p 127.0.0.1:8080:8080 --rm web-server
 ```
+# Exercise 1.11
+
+```
+FROM openjdk:8
+
+EXPOSE 8080
+
+WORKDIR /usr/src/app
+
+COPY . .
+
+RUN ./mvnw package
+
+CMD java -jar ./target/docker-example-1.1.3.jar
+
+
+
+docker run -p 127.0.0.1:8080:8080 --rm -d spring111:latest
+```
