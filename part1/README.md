@@ -98,3 +98,45 @@ CMD java -jar ./target/docker-example-1.1.3.jar
 
 docker run -p 127.0.0.1:8080:8080 --rm -d spring111:latest
 ```
+
+## Exercise 1.12
+
+```
+FROM node:16
+
+EXPOSE 5000
+
+WORKDIR usr/src/app
+
+COPY . .
+
+RUN apt-get update && apt-get install -y curl
+RUN npm install
+RUN npm run build
+RUN npm install -g serve
+
+CMD serve -s -l 5000 build
+
+
+
+docker run -p 127.0.0.1:5000:5000 example-frontend
+```
+## Exercise 1.13
+
+```
+FROM golang:1.16
+
+EXPOSE 8080
+
+WORKDIR usr/src/app
+
+COPY . .
+
+RUN go build
+
+CMD ["./server"]
+
+
+docker build -t example-backend .
+docker run -d -p 127.0.0.1:8080:8080 example-backend
+```
