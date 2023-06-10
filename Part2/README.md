@@ -75,4 +75,4 @@ services:
     environment:
       - REDIS_HOST=redis
 ```
-- ./example-frontend & ./example-frontend contain these [Dockerfiles](https://github.com/Desipeli/devopswithdocker2023/blob/main/part1/README.md#exercise-114)
+- ./example-frontend & ./example-backend contain these [Dockerfiles](https://github.com/Desipeli/devopswithdocker2023/blob/main/part1/README.md#exercise-114)
