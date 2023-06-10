@@ -122,3 +122,41 @@ services:
 volumes:
   database:
 ```
+
+## Exercise 2.7
+
+#### docker-compose.yml
+```
+version: '3.8'
+
+services:
+
+  db:
+    image: postgres:13.2-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - ./database:/var/lib/postgresql/data
+      
+  redis:
+    image: redis:latest
+
+  exaple-frontend:
+    build: ./example-frontend
+    ports:
+      - 5000:5000
+
+  example-backend:
+    build: ./example-backend
+    ports:
+      - 8080:8080
+    environment:
+      - REDIS_HOST=redis
+      - POSTGRES_HOST=db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DATABASE=postgres
+```
