@@ -226,3 +226,51 @@ http {
 }
 
 ```
+## Exercise 2.9
+
+#### docker-compose.yml
+```
+version: '3.8'
+
+services:
+
+  proxy:
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    
+  db:
+    image: postgres:13.2-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - ./database:/var/lib/postgresql/data
+      
+  redis:
+    image: redis:latest
+
+  example-frontend:
+    build: ./example-frontend
+    ports:
+      - 5000:5000
+    environment:
+      - REACT_APP_BACKEND_URL=http://localhost/api/
+
+  example-backend:
+    build: ./example-backend
+    ports:
+      - 8080:8080
+    environment:
+      - REDIS_HOST=redis
+      - POSTGRES_HOST=db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DATABASE=postgres
+      - REQUEST_ORIGIN=http://localhost/
+```
+Now all envs are declared in docker-compose.yml
