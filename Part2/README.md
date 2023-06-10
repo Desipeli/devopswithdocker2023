@@ -49,4 +49,4 @@ services:
 ```
 
 - ./example-frontend contains also this [Dockerfile](https://github.com/Desipeli/devopswithdocker2023/blob/main/part1/README.md#exercise-112)
-- ./example-backend containse also this [Dockerfile](https://github.com/Desipeli/devopswithdocker2023/blob/main/part1/README.md#exercise-113)
+- ./example-backend contains also this [Dockerfile](https://github.com/Desipeli/devopswithdocker2023/blob/main/part1/README.md#exercise-113)
