@@ -160,3 +160,69 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DATABASE=postgres
 ```
+## Exercise 2.8
+
+#### docker-compose.yml
+```
+version: '3.8'
+
+services:
+
+  proxy:
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    
+  db:
+    image: postgres:13.2-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - ./database:/var/lib/postgresql/data
+      
+  redis:
+    image: redis:latest
+
+  example-frontend:
+    build: ./example-frontend
+    ports:
+      - 5000:5000
+
+  example-backend:
+    build: ./example-backend
+    ports:
+      - 8080:8080
+    environment:
+      - REDIS_HOST=redis
+      - POSTGRES_HOST=db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DATABASE=postgres
+```
+#### nginx.conf
+```
+events { worker_connections 1024; }
+
+http {
+  server {
+    listen 80;
+
+    location / {
+      proxy_pass http://example-frontend:5000/;
+    }
+
+    # configure here where requests to http://localhost/api/...
+    # are forwarded
+    location /api/ {
+      proxy_set_header Host $host;
+      proxy_pass http://example-backend:8080/;
+    }
+  }
+}
+
+```
