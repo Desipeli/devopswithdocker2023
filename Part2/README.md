@@ -76,3 +76,7 @@ services:
       - REDIS_HOST=redis
 ```
 - ./example-frontend & ./example-backend contain these [Dockerfiles](https://github.com/Desipeli/devopswithdocker2023/blob/main/part1/README.md#exercise-114)
+
+## Exercise 2.5
+
+`docker compose up --scale compute=3`
