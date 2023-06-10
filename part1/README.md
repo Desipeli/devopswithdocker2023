@@ -193,3 +193,27 @@ docker run -d -p 127.0.0.1:8080:8080 example-backend
 ## Exercise 1.15
 
 [https://hub.docker.com/repository/docker/desipeli/lausegeneraattori/general](https://hub.docker.com/repository/docker/desipeli/lausegeneraattori/general)
+
+## Exercise 1.16
+
+I deployed a NodeJS app [pistepankki](https://github.com/Desipeli/pistepankki_backend) with docker to fly.io
+
+The app: [https://pistepankki.fly.dev/](https://pistepankki.fly.dev/)
+
+[dockerhub](https://hub.docker.com/repository/docker/desipeli/pistepankki/general)
+
+#### Dockerfile
+```
+FROM node:18
+
+WORKDIR usr/src/app
+
+COPY . .
+
+EXPOSE 3001
+
+RUN npm install
+
+CMD npm run start
+```
+
