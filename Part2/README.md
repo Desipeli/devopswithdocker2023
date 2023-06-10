@@ -274,3 +274,61 @@ services:
       - REQUEST_ORIGIN=http://localhost/
 ```
 Now all envs are declared in docker-compose.yml
+
+## Exercise 2.10
+
+#### docker-compose.yml
+```
+version: '3.8'
+
+services:
+
+  proxy:
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    
+  db:
+    image: postgres:13.2-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - ./database:/var/lib/postgresql/data
+      
+  redis:
+    image: redis:latest
+
+  example-frontend:
+    build: ./example-frontend
+    environment:
+      - REACT_APP_BACKEND_URL=http://localhost/api/
+
+  example-backend:
+    build: ./example-backend
+    environment:
+      - REDIS_HOST=redis
+      - POSTGRES_HOST=db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DATABASE=postgres
+      - REQUEST_ORIGIN=http://localhost/
+```
+```
+> docker run -it --rm --network host networkstatic/nmap localhost
+Starting Nmap 7.92 ( https://nmap.org ) at 2023-06-10 19:21 UTC
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.0000020s latency).
+Other addresses for localhost (not scanned): ::1
+Not shown: 998 closed tcp ports (reset)
+PORT    STATE    SERVICE
+80/tcp  filtered http
+111/tcp open     rpcbind
+
+Nmap done: 1 IP address (1 host up) scanned in 1.51 seconds
+```
+Removed ports from frontend and backend
