@@ -74,3 +74,44 @@ docker build . -t $target
 docker login
 docker push $target
 ```
+
+## Exercise 3.5
+
+#### frontend Dockerfile
+```
+FROM node:16
+
+EXPOSE 5000
+
+WORKDIR usr/src/app
+
+COPY . .
+
+RUN apt-get update && apt-get install -y curl
+RUN npm install
+RUN npm run build
+RUN npm install -g serve
+RUN useradd -m appuser
+RUN chown appuser .
+
+USER appuser
+
+CMD serve -s -l 5000 build
+```
+
+#### backend Dockerfile
+```
+FROM golang:1.16
+
+EXPOSE 8080
+
+WORKDIR usr/src/app
+
+COPY . .
+
+RUN go build
+RUN adduser appuser
+USER appuser
+
+CMD ["./server"]
+```
