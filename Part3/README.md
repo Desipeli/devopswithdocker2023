@@ -115,3 +115,46 @@ USER appuser
 
 CMD ["./server"]
 ```
+
+## Exercise 3.6
+
+#### Frontend
+- Initial size is huge 1.27 GB
+- After changes it is still 1.26 GB
+  ```
+  FROM node:16
+
+  EXPOSE 5000
+
+  WORKDIR usr/src/app
+
+  COPY . .
+
+  RUN apt-get update && \
+  npm install && \
+  npm run build && \
+  npm install -g serve && \
+  useradd -m appuser && \
+  rm -rf /var/lib/apt/lists/* && \
+  chown appuser .
+
+  USER appuser
+
+  CMD serve -s -l 5000 build
+  ```
+#### backend
+- Initial size 1.06 GB
+- same after changes ??
+
+```
+FROM golang:1.16
+EXPOSE 8080
+WORKDIR usr/src/app
+COPY . .
+
+RUN go build && \
+  apt-get purge -y --auto-remove curl && \
+  rm -rf /var/lib/apt/lists/*
+
+CMD ["./server"]
+```
