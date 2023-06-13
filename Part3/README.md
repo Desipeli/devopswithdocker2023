@@ -23,3 +23,37 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
 ```
+
+## Exercise 3.2
+
+- Repo: [https://github.com/Desipeli/pistepankki_backend](https://github.com/Desipeli/pistepankki_backend)
+- Dockerhub [https://hub.docker.com/repository/docker/desipeli/pistepankki/general](https://hub.docker.com/repository/docker/desipeli/pistepankki/general)
+- Deployed to [https://pistepankki.fly.dev/](https://pistepankki.fly.dev/)
+
+This part from .github/workflows/main.yml is responsible for deploying the app to fly.io
+```
+  deploy-flyio:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+```
+fly.toml
+```
+app = "pistepankki"
+primary_region = "arn"
+
+[build]
+  dockerfile = "./Dockerfile"
+
+[http_service]
+  internal_port = 3001
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+```
