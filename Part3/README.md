@@ -57,3 +57,20 @@ primary_region = "arn"
   auto_start_machines = true
   min_machines_running = 0
 ```
+
+## Exercise 3.3
+
+#### builder.sh
+```
+#!/bin/sh
+
+read repo target
+
+git clone https://github.com/$repo.git
+folder=$(basename $repo)
+cd $folder
+
+docker build . -t $target
+docker login
+docker push $target
+```
