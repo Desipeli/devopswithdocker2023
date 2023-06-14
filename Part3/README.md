@@ -201,3 +201,30 @@ RUN go build && \
 
 CMD ["./server"]
 ```
+
+## Exercise 3.8
+
+size: 47.34 MB
+
+Using nginxinc/nginx-unprivileged to run nginx non-root
+
+```
+FROM node:16-alpine as build
+
+EXPOSE 5000
+
+WORKDIR /usr/src/app
+
+COPY . .
+
+RUN npm install && \
+  npm run build && \
+  npm install -g serve && \
+  rm -rf /var/lib/apt/lists/*
+
+FROM nginxinc/nginx-unprivileged:alpine
+
+WORKDIR /usr/share/nginx/html
+
+COPY --from=build /usr/src/app/build /usr/share/nginx/html
+```
