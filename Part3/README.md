@@ -144,7 +144,7 @@ CMD ["./server"]
   ```
 #### backend
 - Initial size 1.06 GB
-- same after changes ??
+- same after changes
 
 ```
 FROM golang:1.16
@@ -154,6 +154,49 @@ COPY . .
 
 RUN go build && \
   apt-get purge -y --auto-remove curl && \
+  rm -rf /var/lib/apt/lists/*
+
+CMD ["./server"]
+```
+
+## Exercise 3.7
+
+#### frontend
+- Initialsize: 1.26 GB
+- After FROM node:16-alpine: 469.74 MB
+```
+FROM node:16-alpine
+
+EXPOSE 5000
+
+WORKDIR usr/src/app
+
+COPY . .
+
+RUN npm install && \
+  npm run build && \
+  npm install -g serve && \
+  adduser --system appuser && \
+  rm -rf /var/lib/apt/lists/* && \
+  chown appuser .
+
+USER appuser
+
+CMD serve -s -l 5000 build
+```
+#### backend
+- Initial size: 1.06 GB
+- After FROM alpine: 447.43 MB
+```
+FROM golang:1.16-alpine
+
+EXPOSE 8080
+
+WORKDIR usr/src/app
+
+COPY . .
+
+RUN go build && \
   rm -rf /var/lib/apt/lists/*
 
 CMD ["./server"]
