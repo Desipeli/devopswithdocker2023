@@ -228,3 +228,31 @@ WORKDIR /usr/share/nginx/html
 
 COPY --from=build /usr/src/app/build /usr/share/nginx/html
 ```
+
+## Exercise 3.9
+
+size: 18.1MB
+
+docker build . -t backend
+
+docker run -p 8080:8080 backend
+
+```
+FROM golang:1.16 as build
+
+WORKDIR /usr/src/app
+
+COPY . .
+
+RUN CGO_ENABLED=0 go build
+
+FROM scratch
+
+WORKDIR /app
+
+COPY --from=build /usr/src/app .
+
+EXPOSE 8080
+
+CMD ["./server"]
+```
