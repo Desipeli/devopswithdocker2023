@@ -75,6 +75,40 @@ docker login
 docker push $target
 ```
 
+## Exercise 3.4
+
+### builder.sh
+
+```
+#!/bin/sh
+
+repo=$1
+target=$2
+
+git clone https://github.com/$repo.git
+folder=$(basename $repo)
+cd $folder
+
+docker build . -t $target
+docker login -u=${DOCKER_USER} -p=${DOCKER_PWD}
+docker push $target
+```
+
+### Dockerfile
+
+```
+FROM docker
+
+WORKDIR /app
+
+COPY builder.sh .
+
+ENTRYPOINT ["./builder.sh"]
+```
+
+Run with: `docker run -e DOCKER_USER=<USERNAME> -e DOCKER_PWD=<PASSWORD> -v /var/run/docker.sock:/var/run/docker.sock builder <GITHUB_REPO> <DOCKERHUB TARGET>`
+
+
 ## Exercise 3.5
 
 #### frontend Dockerfile
