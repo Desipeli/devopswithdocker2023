@@ -261,7 +261,8 @@ CMD ["./server"]
 
 ### Original
 
-size: 166.6 MB
+- size (windows): 166.6 MB
+- size (linux/arm64): 90.6
 
 ```
 FROM --platform=$TARGETPLATFORM python:3.11.4-alpine
@@ -275,9 +276,10 @@ COPY . .
 CMD ["python3", "bot.py"]
 ```
 
-### Multibuild with user
+### Multistage build with user
 
-size: 30.68 MB
+- size (windows): 30.68 MB
+- size (linux/arm64): 20.6 MB
 
 ```
 FROM --platform=$TARGETPLATFORM python:3.11.4-alpine as build
