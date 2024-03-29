@@ -259,6 +259,8 @@ CMD ["./server"]
 
 ## Exercise 3.10
 
+project: [Discord ChatGPT bot](https://github.com/Desipeli/gpt-discord/)
+
 ### Original
 
 - size (windows): 166.6 MB
