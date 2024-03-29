@@ -256,3 +256,51 @@ EXPOSE 8080
 
 CMD ["./server"]
 ```
+
+## Exercise 3.10
+
+### Original
+
+size: 166.6 MB
+
+```
+FROM --platform=$TARGETPLATFORM python:3.11.4-alpine
+
+WORKDIR /usr/src/app/
+
+RUN pip install discord openai python-dotenv
+
+COPY . .
+
+CMD ["python3", "bot.py"]
+```
+
+### Multibuild with user
+
+size: 30.68 MB
+
+```
+FROM --platform=$TARGETPLATFORM python:3.11.4-alpine as build
+
+WORKDIR /usr/src/app/
+
+COPY . .
+
+RUN apk add binutils
+RUN pip3 install pyinstaller
+RUN pip3 install -r ./requirements.txt
+RUN pyinstaller -F bot.py
+
+
+FROM alpine
+
+WORKDIR /app
+
+RUN adduser -D appuser
+
+COPY --from=build /usr/src/app/dist .
+
+USER appuser
+
+CMD ["./bot"]
+```
